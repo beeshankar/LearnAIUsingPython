@@ -13,5 +13,4 @@ Four different AI-related functions:
 The code is designed to be educational and demonstrates basic concepts without external dependencies. Each function implements a simplified version of AI concepts to help understand the fundamentals.
 
 # Shankar Balakrishnan: https://beeshankar.medium.com/the-beginning-of-ai-revolution-human-evolution-part-3b-business-use-cases-aitaas-9c4729604223
-# Let's learn AI using Python
 # Example program written with the help of cursor co-pilot
