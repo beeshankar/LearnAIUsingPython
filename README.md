@@ -1,3 +1,14 @@
+This update adds a new pdf_qa_system() function that:
+Loads a PDF file and extracts its text content
+Implements a simple question-answering system using keyword matching
+Allows users to ask questions about the PDF content
+Returns relevant sentences from the PDF that might answer the question
+The main menu has been updated to include the new Q&A system option.
+The Q&A system is basic but demonstrates the concept:
+It removes common stop words from the question
+Searches for sentences containing keywords from the question
+Returns up to 3 most relevant sentences
+--
 This program includes:
 A structured menu-driven interface
 Four different AI-related functions:
