@@ -1,6 +1,7 @@
 # Shankar Balakrishnan: https://beeshankar.medium.com/the-beginning-of-ai-revolution-human-evolution-part-3b-business-use-cases-aitaas-9c4729604223
 # Let's learn AI using Python
 # Example program written with the help of cursor co-pilot
+# Added additional options to explore LLM with model trained using a local PDF file
 def simple_nlp_example():
     """Simple NLP example using basic text processing"""
     print("\n=== Simple NLP Demo ===")
@@ -106,6 +107,99 @@ def use_case_example():
     else:
         print("Overall sentiment: Neutral")
 
+def read_pdf_for_training():
+    """Read text from PDF files for LLM training"""
+    try:
+        import PyPDF2
+    except ImportError:
+        print("\nError: PyPDF2 library not found.")
+        print("Please install it using: pip install PyPDF2")
+        return
+
+    print("\n=== PDF Reader for LLM Training ===")
+    pdf_path = input("Enter the path to your PDF file: ")
+
+    try:
+        # Open and read the PDF file
+        with open(pdf_path, 'rb') as file:
+            pdf_reader = PyPDF2.PdfReader(file)
+            text_content = ""
+
+            # Extract text from each page
+            for page in pdf_reader.pages:
+                text_content += page.extract_text()
+
+            # Basic text statistics
+            words = text_content.split()
+            unique_words = set(words)
+
+            print("\nPDF Analysis Results:")
+            print(f"Total pages: {len(pdf_reader.pages)}")
+            print(f"Total words: {len(words)}")
+            print(f"Unique words: {len(unique_words)}")
+            
+            # Preview of the content
+            preview_length = 200
+            print(f"\nContent preview (first {preview_length} characters):")
+            print(text_content[:preview_length] + "...")
+
+    except FileNotFoundError:
+        print(f"\nError: File '{pdf_path}' not found.")
+    except Exception as e:
+        print(f"\nError reading PDF: {str(e)}")
+
+def pdf_qa_system():
+    """Question-Answering system using PDF content"""
+    try:
+        import PyPDF2
+    except ImportError:
+        print("\nError: PyPDF2 library not found.")
+        print("Please install it using: pip install PyPDF2")
+        return
+
+    print("\n=== PDF-based Q&A System ===")
+    pdf_path = input("Enter the path to your PDF file: ")
+
+    try:
+        # Load and process PDF content
+        with open(pdf_path, 'rb') as file:
+            pdf_reader = PyPDF2.PdfReader(file)
+            text_content = ""
+            for page in pdf_reader.pages:
+                text_content += page.extract_text()
+
+        print("\nPDF loaded successfully! You can now ask questions about its content.")
+        print("(Type 'quit' to exit)")
+
+        while True:
+            question = input("\nYour question: ").lower()
+            if question == 'quit':
+                break
+
+            # Simple keyword-based answer retrieval
+            # Split content into sentences (basic implementation)
+            sentences = text_content.replace('\n', ' ').split('.')
+            relevant_sentences = []
+
+            # Search for sentences containing question keywords
+            question_words = set(question.split()) - {'what', 'why', 'how', 'when', 'where', 'who', 'is', 'are', 'the', 'a', 'an'}
+            for sentence in sentences:
+                sentence = sentence.strip()
+                if any(word in sentence.lower() for word in question_words):
+                    relevant_sentences.append(sentence)
+
+            if relevant_sentences:
+                print("\nRelevant information found:")
+                for i, sentence in enumerate(relevant_sentences[:3], 1):
+                    print(f"{i}. {sentence}")
+            else:
+                print("\nSorry, I couldn't find relevant information to answer your question.")
+
+    except FileNotFoundError:
+        print(f"\nError: File '{pdf_path}' not found.")
+    except Exception as e:
+        print(f"\nError processing PDF: {str(e)}")
+
 def main():
     """Main function to handle menu and program flow"""
     while True:
@@ -114,9 +208,11 @@ def main():
         print("2. Simple Language Model")
         print("3. Simple LLM Demo")
         print("4. Use Case Example (Sentiment Analysis)")
-        print("5. Exit")
+        print("5. Read PDF for Training")
+        print("6. PDF Q&A System")
+        print("7. Exit")
         
-        choice = input("\nEnter your choice (1-5): ")
+        choice = input("\nEnter your choice (1-7): ")
         
         if choice == '1':
             simple_nlp_example()
@@ -127,6 +223,10 @@ def main():
         elif choice == '4':
             use_case_example()
         elif choice == '5':
+            read_pdf_for_training()
+        elif choice == '6':
+            pdf_qa_system()
+        elif choice == '7':
             print("\nThank you for exploring AI examples!")
             break
         else:
